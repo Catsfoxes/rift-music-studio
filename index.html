@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rift Music Studio</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, sans-serif; color-scheme: dark; }
+    body { margin: 0; min-height: 100vh; background: #11131a; display: grid; place-items: center; }
+    main { width: min(900px, 92vw); padding: 32px; box-sizing: border-box; }
+    h1 { margin-top: 0; }
+    .panel { background: #1b1e27; border: 1px solid #303542; border-radius: 16px; padding: 20px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    button { border: 1px solid #4a5160; background: #252a36; color: inherit; border-radius: 10px; padding: 10px 14px; cursor: pointer; }
+    button:hover { background: #303644; }
+    #status { min-height: 1.5em; opacity: .8; }
+    input[type=file] { max-width: 100%; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Rift Music Studio 🎵</h1>
+    <div class="panel">
+      <p>A tiny first test build: load a local audio file and control playback.</p>
+      <input id="audioFile" type="file" accept="audio/*">
+      <div class="controls">
+        <button id="play">Play</button>
+        <button id="pause">Pause</button>
+        <button id="stop">Stop</button>
+      </div>
+      <audio id="player" controls preload="metadata"></audio>
+      <p id="status">No track loaded.</p>
+    </div>
+  </main>
+  <script>
+    const fileInput = document.querySelector('#audioFile');
+    const player = document.querySelector('#player');
+    const status = document.querySelector('#status');
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files?.[0];
+      if (!file) return;
+      player.src = URL.createObjectURL(file);
+      status.textContent = `Loaded: ${file.name}`;
+    });
+    document.querySelector('#play').addEventListener('click', () => player.play());
+    document.querySelector('#pause').addEventListener('click', () => player.pause());
+    document.querySelector('#stop').addEventListener('click', () => {
+      player.pause();
+      player.currentTime = 0;
+    });
+  </script>
+</body>
+</html>
