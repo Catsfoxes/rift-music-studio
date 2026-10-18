@@ -10,56 +10,27 @@
 <body>
   <div class="app">
     <header class="topbar">
-      <div class="brand">
-        <div class="logo">🎵</div>
-        <div>
-          <h1>Rift Music Studio</h1>
-          <p class="subtitle">Build sounds. Stack ideas. Make a little magic.</p>
-        </div>
-      </div>
-      <div class="toolbar">
-        <button id="addTrackButton" class="primary">＋ Add Track</button>
-        <button id="clearButton" class="danger">Clear</button>
-        <input id="audioFile" type="file" accept="audio/*" multiple hidden>
-      </div>
+      <div class="brand"><div class="logo">🎵</div><div><h1>Rift Music Studio</h1><p class="subtitle">Build sounds. Stack ideas. Make a little magic.</p></div></div>
+      <div class="toolbar"><button id="addTrackButton" class="primary">＋ Add Track</button><button id="clearButton" class="danger">Clear</button><input id="audioFile" type="file" accept="audio/*" multiple hidden></div>
     </header>
-
     <main class="studio">
+      <section class="panel sound-lab">
+        <div class="panel-head"><div><strong>🎛️ Sound Lab</strong><div class="meta">Temporary sketch instruments — tap to play</div></div><div class="transport"><span id="lastSound" class="transport-status">Ready</span></div></div>
+        <div class="instrument-grid">
+          <button class="instrument" data-instrument="piano"><div class="instrument-art"><svg viewBox="0 0 220 110"><rect x="18" y="18" width="184" height="70" rx="5"/><path d="M28 43h164M28 68h164M54 18v70M91 18v70M128 18v70M165 18v70"/><path d="M45 18v45M70 18v45M82 18v45M107 18v45M119 18v45M144 18v45M156 18v45M181 18v45"/></svg></div><span>Piano</span><small>tap a key</small></button>
+          <button class="instrument" data-instrument="trumpet"><div class="instrument-art"><svg viewBox="0 0 220 110"><path d="M24 64h92c23 0 35-9 48-25l28-20M24 78h92c28 0 41-12 55-29l25-22M34 64v14M53 64v14M72 64v14M91 64v14M188 19l14 2-7 15-14-2z"/><circle cx="116" cy="70" r="7"/><circle cx="132" cy="70" r="7"/></svg></div><span>Trumpet</span><small>bright brass</small></button>
+          <button class="instrument" data-instrument="flute"><div class="instrument-art"><svg viewBox="0 0 220 110"><path d="M20 55h178M20 67h178M20 55v12M198 55v12"/><circle cx="52" cy="61" r="5"/><circle cx="73" cy="61" r="5"/><circle cx="94" cy="61" r="5"/><circle cx="115" cy="61" r="5"/><circle cx="136" cy="61" r="5"/><circle cx="157" cy="61" r="5"/><path d="M178 55v12"/></svg></div><span>Flute</span><small>airy tone</small></button>
+          <button class="instrument" data-instrument="clarinet"><div class="instrument-art"><svg viewBox="0 0 220 110"><path d="M70 15l45 4 27 67-43 9-29-67zM73 16l-8-5M116 19l5-9M99 94l-4 8M142 86l8 4"/><circle cx="88" cy="34" r="6"/><circle cx="97" cy="52" r="6"/><circle cx="105" cy="70" r="6"/><circle cx="122" cy="42" r="5"/><circle cx="130" cy="61" r="5"/><ellipse cx="116" cy="91" rx="25" ry="8"/></svg></div><span>Clarinet</span><small>mystery woodwind</small></button>
+          <button class="instrument" data-instrument="chimes"><div class="instrument-art"><svg viewBox="0 0 220 110"><path d="M24 22h172M40 22v72M67 22v62M94 22v78M121 22v66M148 22v80M175 22v58M30 22l10-8 10 8M57 22l10-8 10 8M84 22l10-8 10 8M111 22l10-8 10 8M138 22l10-8 10 8M165 22l10-8 10 8"/><circle cx="94" cy="94" r="5"/></svg></div><span>Chimes</span><small>sparkly hit</small></button>
+        </div>
+      </section>
       <section class="panel">
-        <div class="panel-head">
-          <div>
-            <strong>Timeline</strong>
-            <div id="trackCount" class="meta">0 tracks</div>
-          </div>
-          <div class="transport">
-            <span id="transport" class="transport-status">Ready</span>
-            <button id="playButton" class="primary">Play</button>
-            <button id="stopButton">Stop</button>
-          </div>
-        </div>
-
-        <div class="timeline">
-          <div id="tracks"></div>
-          <div id="emptyState" class="empty">
-            <strong>Your studio is empty.</strong>
-            Add an audio file to create your first track.
-          </div>
-        </div>
+        <div class="panel-head"><div><strong>Timeline</strong><div id="trackCount" class="meta">0 tracks</div></div><div class="transport"><span id="transport" class="transport-status">Ready</span><button id="playButton" class="primary">Play</button><button id="stopButton">Stop</button></div></div>
+        <div class="timeline"><div id="tracks"></div><div id="emptyState" class="empty"><strong>Your studio is empty.</strong>Add an audio file to create your first track.</div></div>
       </section>
-
-      <section class="panel settings">
-        <div class="setting">
-          <div class="setting-title"><span>Tempo</span><strong><span id="bpmValue">120</span> BPM</strong></div>
-          <input id="bpm" type="range" min="40" max="240" value="120" step="1">
-        </div>
-        <div class="setting">
-          <div class="setting-title"><span>Master volume</span><strong id="masterValue">90%</strong></div>
-          <input id="masterVolume" type="range" min="0" max="1" value="0.9" step="0.01">
-        </div>
-      </section>
+      <section class="panel settings"><div class="setting"><div class="setting-title"><span>Tempo</span><strong><span id="bpmValue">120</span> BPM</strong></div><input id="bpm" type="range" min="40" max="240" value="120" step="1"></div><div class="setting"><div class="setting-title"><span>Master volume</span><strong id="masterValue">90%</strong></div><input id="masterVolume" type="range" min="0" max="1" value="0.9" step="0.01"></div></section>
     </main>
-
-    <p class="footer-note">Prototype 0.2 — audio tracks are loaded locally in your browser; files are not uploaded.</p>
+    <p class="footer-note">Prototype 0.3 — tap an instrument to test its sound. Audio files remain local to your browser.</p>
   </div>
   <script src="app.js"></script>
 </body>
