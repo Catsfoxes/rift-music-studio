@@ -13,47 +13,28 @@
  */
 
 export function createTrack(name, instrument = "sine", volume = 0.8) {
-  return {
-    name,
-    instrument,
-    volume,
-    notes: []
-  };
+  return { name, instrument, volume, notes: [] };
 }
 
 export function addNote(track, pitch, start, duration = 1, velocity = 1) {
   if (!Number.isFinite(pitch) || !Number.isFinite(start) || !Number.isFinite(duration)) {
     throw new TypeError("pitch, start, and duration must be numbers");
   }
-
-  if (duration <= 0) {
-    throw new RangeError("duration must be greater than 0");
-  }
-
+  if (duration <= 0) throw new RangeError("duration must be greater than 0");
   track.notes.push({ pitch, start, duration, velocity });
   return track;
 }
 
 export function createPattern(track, pattern, pitch = 60, step = 1) {
   [...pattern].forEach((hit, index) => {
-    if (hit === "x" || hit === "X" || hit === "1") {
-      addNote(track, pitch, index * step, step);
-    }
+    if (hit === "x" || hit === "X" || hit === "1") addNote(track, pitch, index * step, step);
   });
-
   return track;
 }
 
 export function mixTracks(tracks) {
   return tracks
-    .flatMap(track =>
-      track.notes.map(note => ({
-        ...note,
-        track: track.name,
-        instrument: track.instrument,
-        volume: track.volume
-      }))
-    )
+    .flatMap(track => track.notes.map(note => ({ ...note, track: track.name, instrument: track.instrument, volume: track.volume })))
     .sort((a, b) => a.start - b.start);
 }
 
@@ -67,7 +48,8 @@ export function runSelfTest() {
   const drums = createTrack("Drums", "noise");
   const melody = createTrack("Magic Lead", "sine");
 
-  createPattern(drums, "x-x-x-x-", 36, 0.5);
+  // Four drum hits across two beats.
+  createPattern(drums, "x-x-x-x-", 36, 0.25);
   addNote(melody, 60, 0, 0.5);
   addNote(melody, 64, 0.5, 0.5);
   addNote(melody, 67, 1, 1);
@@ -78,13 +60,7 @@ export function runSelfTest() {
   if (mixed.length !== 7) throw new Error("Self-test failed: unexpected note count");
   if (length !== 2) throw new Error("Self-test failed: unexpected song length");
 
-  return {
-    passed: true,
-    noteCount: mixed.length,
-    songLength: length,
-    message: "Rift Music Studio prototype self-test passed!"
-  };
+  return { passed: true, noteCount: mixed.length, songLength: length, message: "Rift Music Studio prototype self-test passed!" };
 }
 
-// Safe to run directly in a browser/module console.
 console.log(runSelfTest());
