@@ -6,6 +6,7 @@ on:
       - companion-demo
     paths:
       - companion-demo.html
+      - docs/index.html
       - .github/workflows/publish-companion.yml
   workflow_dispatch:
 
