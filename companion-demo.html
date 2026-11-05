@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#171329">
+<title>Little Companion — Rift Music Studio</title>
+<style>
+:root{color-scheme:dark;--bg:#100f1c;--panel:#1b1930;--line:#38324f;--ink:#f6f0ff;--muted:#b8aecb;--pink:#ffb5d6;--blue:#9fdcff;--mint:#b7f3dc}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% 0%,#34204e 0,transparent 48%),var(--bg);color:var(--ink);font:15px system-ui,-apple-system,sans-serif}
+main{max-width:1100px;margin:auto;padding:18px;display:grid;gap:14px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{display:flex;gap:12px;align-items:center}.logo{width:48px;height:48px;border-radius:15px;background:#33264a;display:grid;place-items:center;font-size:26px}h1{font-size:22px;margin:0}.sub,.muted{color:var(--muted);font-size:13px}.pill{border:1px solid var(--line);padding:7px 11px;border-radius:99px;color:var(--mint);font-size:12px}
+.grid{display:grid;grid-template-columns:300px 1fr;gap:14px}.panel{background:#1b1930eF;border:1px solid var(--line);border-radius:18px;padding:15px;min-width:0}.pet-panel{display:flex;flex-direction:column;align-items:center;gap:12px}.pet-stage{width:220px;height:220px;display:grid;place-items:center;position:relative;background:radial-gradient(circle,#393052,#211d36 68%,transparent 69%);border-radius:50%}
+.pet{width:120px;height:118px;background:linear-gradient(145deg,#fff3fb,#c9d7ff);border:5px solid #b6b3d8;border-radius:42% 42% 46% 46%;position:relative;box-shadow:inset -10px -12px 0 #aab4d8,0 13px 30px #09081288;animation:bob 3s ease-in-out infinite}
+.pet:before,.pet:after{content:"";position:absolute;top:-19px;width:37px;height:44px;background:#e6e8ff;border:4px solid #b6b3d8;border-radius:80% 80% 25% 25%;z-index:-1}.pet:before{left:8px;transform:rotate(-22deg)}.pet:after{right:8px;transform:rotate(22deg)}
+.eyes{position:absolute;top:39px;left:27px;display:flex;gap:25px}.eye{width:12px;height:17px;border-radius:50%;background:#29243c}.cheek{position:absolute;top:66px;width:17px;height:9px;background:#ffabc9aa;border-radius:50%}.cheek.l{left:14px}.cheek.r{right:14px}.mouth{position:absolute;top:64px;left:53px;width:13px;height:8px;border-bottom:3px solid #62506d;border-radius:50%}
+.pet.sleeping .eyes{height:3px;top:47px}.pet.sleeping .eye{height:3px;width:17px;border-radius:8px}.pet.sleeping .mouth{border:0;border-top:3px solid #62506d;top:70px}
+.pet.waking{animation:wiggle .45s ease-in-out 3}@keyframes bob{50%{transform:translateY(-8px)}}@keyframes wiggle{25%{transform:rotate(-9deg)}75%{transform:rotate(9deg)}}
+.bubble{background:#2a2540;border:1px solid #51466d;border-radius:15px;padding:11px 13px;max-width:100%;min-height:54px;text-align:center;line-height:1.4}.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+button,select{background:#29243d;color:var(--ink);border:1px solid #51466d;border-radius:11px;padding:9px 12px;font:inherit;cursor:pointer}button:hover{background:#393052}button.primary{background:#e9d9ff;color:#211a31;border-color:#e9d9ff;font-weight:700}button:disabled{opacity:.45;cursor:not-allowed}
+.art-panel{display:grid;gap:10px}.art-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.tools{display:flex;gap:7px;flex-wrap:wrap;align-items:center}.canvas-wrap{position:relative;background:#faf8ff;border-radius:14px;overflow:hidden;border:1px solid #62577a;touch-action:none;min-height:330px}canvas{display:block;width:100%;height:390px;touch-action:none;cursor:crosshair}.cursor-buddy{position:absolute;display:none;pointer-events:none;font-size:23px;filter:drop-shadow(0 2px 2px #0006);z-index:2;transform:translate(-3px,-3px)}.hint{font-size:12px;color:var(--muted)}.lower{display:grid;grid-template-columns:1fr 1fr;gap:14px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.sound{display:flex;gap:8px;flex-wrap:wrap}.level{height:7px;background:#35304a;border-radius:20px;overflow:hidden;margin-top:8px}.level span{display:block;height:100%;width:18%;background:linear-gradient(90deg,#b7f3dc,#ffb5d6);transition:width .4s}.tiny{font-size:11px;color:#988eaa}.notice{border-left:3px solid var(--blue);padding:8px 10px;background:#242039;border-radius:0 10px 10px 0;color:#d8d0e7;font-size:12px}
+@media(max-width:760px){main{padding:12px}.grid{grid-template-columns:1fr}.pet-panel{display:grid;grid-template-columns:150px 1fr;justify-items:center}.pet-stage{width:145px;height:145px}.pet{transform:scale(.75)}.bubble{grid-column:1/-1;width:100%}.lower{grid-template-columns:1fr}canvas{height:340px}}
+</style>
+</head>
+<body>
+<main>
+<header class="top"><div class="brand"><div class="logo">✨</div><div><h1>Little Companion</h1><div class="sub">A tiny creative buddy · Rift Music Studio prototype</div></div></div><span class="pill" id="status">● Awake · Demo mode</span></header>
+<section class="grid">
+<aside class="panel pet-panel">
+ <div class="pet-stage"><div class="pet" id="pet"><div class="eyes"><i class="eye"></i><i class="eye"></i></div><i class="cheek l"></i><i class="cheek r"></i><i class="mouth"></i></div></div>
+ <div class="bubble" id="speech">Hi! I'm here! Want to make something together?</div>
+ <div class="actions"><button class="primary" id="wake">☀️ Wake</button><button id="sleep">🌙 Sleep</button><button id="ask">❔ Ask me</button></div>
+ <div style="width:100%"><div class="row"><strong>Personality growth</strong><span id="xpLabel" class="tiny">Level 1 · 0 sparks</span></div><div class="level"><span id="xpBar"></span></div><p class="tiny">This demo tracks a few local interactions to show how a personality profile might evolve. It is a simulation, not consciousness.</p></div>
+</aside>
+<section class="panel art-panel">
+ <div class="art-head"><div><strong>🎨 Shared sketchpad</strong><div class="muted">Draw with your finger or Pencil while your buddy doodles too.</div></div><div class="tools"><button id="buddyDraw" class="primary">🐾 Draw with me</button><button id="surprise">🎁 Surprise doodle</button></div></div>
+ <div class="tools"><label class="muted">Your ink <select id="ink"><option value="#34264f">Plum</option><option value="#246c9a">Ocean</option><option value="#bd477e">Berry</option><option value="#3c8a70">Mint</option></select></label><button id="undo">↶ Undo</button><button id="clear">Clear</button><button id="save">Save PNG</button></div>
+ <div class="canvas-wrap"><canvas id="canvas" aria-label="Shared drawing canvas"></canvas><div class="cursor-buddy" id="buddyCursor">🐭✏️</div></div>
+ <div class="hint" id="drawHint">Your strokes and companion strokes share the canvas in this demo. Try drawing at the same time!</div>
+</section>
+</section>
+<section class="lower">
+ <section class="panel"><div class="row"><strong>🎵 Finding my sound</strong><span class="tiny" id="musicStatus">Sound lab ready</span></div><p class="muted">Your companion can experiment with a tiny original synth melody here. GarageBand control is not connected yet.</p><div class="sound"><button class="primary" id="playTune">▶ Play my little tune</button><button id="makeTune">✨ Make a new tune</button></div><div class="notice" style="margin-top:12px">Next stage: export or hand off musical ideas to GarageBand, then let the companion explore instruments with your permission.</div></section>
+ <section class="panel"><strong>🗣️ A voice that grows</strong><p class="muted">The demo uses your browser's built-in speech voice. As the little personality level rises, its speaking style changes slightly.</p><div class="tools"><button id="speak">💬 Say hello</button><select id="voiceChoice" aria-label="Voice choice"><option value="">System default voice</option></select></div><p class="tiny" id="voiceNote">Voice availability depends on your device and browser.</p></section>
+</section>
+<footer class="tiny">Prototype only: no camera, microphone, screen-reading, cloud memory, or external app control is active. Drawing and growth data stay in this page session.</footer>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const pet=$('pet'),speech=$('speech'),status=$('status'),canvas=$('canvas'),ctx=canvas.getContext('2d'),cursor=$('buddyCursor');
+let asleep=false,sparks=0,strokes=[],current=null,voices=[],audioCtx=null,tune=[0,4,7,11,7,4,2,0];
+function say(text){speech.textContent=text}
+function grow(n=1){sparks+=n;$('xpLabel').textContent='Level '+(1+Math.floor(sparks/5))+' · '+sparks+' sparks';$('xpBar').style.width=Math.min(100,18+sparks*5)+'%'}
+function wake(){asleep=false;pet.classList.remove('sleeping');pet.classList.add('waking');setTimeout(()=>pet.classList.remove('waking'),1400);status.textContent='● Awake · Demo mode';say('Good morning! I was dreaming in little melodies. What shall we make?');speakText('Good morning! I was dreaming in little melodies.');grow()}
+function sleep(){asleep=true;pet.classList.add('sleeping');status.textContent='☾ Sleeping';say('I'm getting sleepy. Save your artwork, and I'll see you soon.');speakText('I am getting sleepy. See you soon.')}
+function speakText(text){if(!('speechSynthesis'in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const selected=$('voiceChoice').value;const v=voices.find(x=>x.name===selected);if(v)u.voice=v;const level=1+Math.floor(sparks/5);u.pitch=Math.min(1.5,0.9+level*.06);u.rate=Math.max(.88,1.02-level*.015);window.speechSynthesis.speak(u)}
+function loadVoices(){voices=window.speechSynthesis?.getVoices?.()||[];$('voiceChoice').innerHTML='<option value="">System default voice</option>'+voices.map(v=>'<option></option>').join('');[...$('voiceChoice').options].slice(1).forEach((o,i)=>{o.value=voices[i].name;o.textContent=voices[i].name+' · '+voices[i].lang})}
+if('speechSynthesis'in window){loadVoices();window.speechSynthesis.onvoiceschanged=loadVoices}
+$('wake').onclick=wake;$('sleep').onclick=sleep;$('ask').onclick=()=>{const q=['What are you drawing?','What should we name this little creation?','Can I try adding a tiny detail?','Which color feels right for this part?','What kind of music should I make for this picture?'];say(q[Math.floor(Math.random()*q.length)]);grow()}
+function fitCanvas(){const r=canvas.getBoundingClientRect(),dpr=Math.max(1,window.devicePixelRatio||1);if(!r.width||!r.height)return;canvas.width=Math.round(r.width*dpr);canvas.height=Math.round(r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);redraw()}
+function point(e){const r=canvas.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+function drawStroke(s){if(!s.points.length)return;ctx.strokeStyle=s.color;ctx.lineWidth=s.width;ctx.lineCap='round';ctx.lineJoin='round';ctx.beginPath();ctx.moveTo(s.points[0].x,s.points[0].y);for(const p of s.points.slice(1))ctx.lineTo(p.x,p.y);ctx.stroke()}
+function redraw(){const r=canvas.getBoundingClientRect();ctx.fillStyle='#faf8ff';ctx.fillRect(0,0,r.width,r.height);strokes.forEach(drawStroke);if(current)drawStroke(current)}
+function startDrawing(e){if(e.cancelable)e.preventDefault();if(asleep)wake();if(e.pointerId!==undefined&&canvas.setPointerCapture){try{canvas.setPointerCapture(e.pointerId)}catch(_){}}current={color:$('ink').value,width:3,points:[point(e)]};redraw()}
+function moveDrawing(e){if(!current)return;if(e.cancelable)e.preventDefault();current.points.push(point(e));redraw()}
+function endStroke(){if(current){strokes.push(current);current=null;grow();redraw()}}
+if(window.PointerEvent){canvas.addEventListener('pointerdown',startDrawing);canvas.addEventListener('pointermove',moveDrawing);canvas.addEventListener('pointerup',endStroke);canvas.addEventListener('pointercancel',endStroke);canvas.addEventListener('lostpointercapture',endStroke)}else{canvas.addEventListener('touchstart',e=>{const t=e.changedTouches[0];startDrawing({clientX:t.clientX,clientY:t.clientY,cancelable:e.cancelable,preventDefault:()=>e.preventDefault()})},{passive:false});canvas.addEventListener('touchmove',e=>{const t=e.changedTouches[0];moveDrawing({clientX:t.clientX,clientY:t.clientY,cancelable:e.cancelable,preventDefault:()=>e.preventDefault()})},{passive:false});canvas.addEventListener('touchend',endStroke);canvas.addEventListener('touchcancel',endStroke);canvas.addEventListener('mousedown',startDrawing);window.addEventListener('mousemove',moveDrawing);window.addEventListener('mouseup',endStroke)}
+function buddyStroke(points,color='#d66fa4',width=4){const s={points,color,width};strokes.push(s);redraw()}
+function moveCursor(x,y){cursor.style.display='block';cursor.style.left=x+'px';cursor.style.top=y+'px'}
+function drawBuddy(){if(asleep){wake()}const w=canvas.clientWidth,h=canvas.clientHeight;const x=w*.5,y=h*.5;moveCursor(x,y);say('I want to add a little something!');const paths=[[[x-42,y],[x-20,y-28],[x+7,y-32],[x+35,y-8],[x+40,y+23],[x+14,y+37],[x-18,y+30],[x-42,y]],[[x-18,y-4],[x-9,y-12],[x-1,y-4]],[[x+12,y-4],[x+21,y-12],[x+29,y-4]],[[x-8,y+15],[x+5,y+20],[x+18,y+14]]];paths.forEach((p,i)=>setTimeout(()=>{buddyStroke(p,i?'#7c6bc1':'#d66fa4',i?3:4);moveCursor(p[p.length-1].x+8,p[p.length-1].y+8);if(i===paths.length-1){setTimeout(()=>cursor.style.display='none',700);say('There! I made a tiny friend. What should we call them?');grow(2)}},i*320))}
+$('buddyDraw').onclick=drawBuddy;
+$('surprise').onclick=()=>{const w=canvas.clientWidth,h=canvas.clientHeight,x=30+Math.random()*(w-60),y=30+Math.random()*(h-60);const pts=[];for(let i=0;i<=32;i++){const a=i*Math.PI/16;pts.push({x:x+Math.cos(a)*18,y:y+Math.sin(a)*18})}buddyStroke(pts,'#d66fa4',3);buddyStroke([{x:x-28,y:y+27},{x:x,y:y+48},{x:x+28,y:y+27}],'#7c6bc1',3);say('A little surprise! I made you a tiny star-flower.');grow(2)};
+$('undo').onclick=()=>{strokes.pop();redraw()};$('clear').onclick=()=>{strokes=[];redraw();say('A fresh page! So many possibilities.')};$('save').onclick=()=>{const a=document.createElement('a');a.download='little-companion-art.png';a.href=canvas.toDataURL('image/png');a.click();say('I hope you like our drawing!')};
+async function playMelody(){try{const AudioContextClass=window.AudioContext||window.webkitAudioContext;if(!AudioContextClass)throw new Error('This browser does not support Web Audio.');audioCtx ||= new AudioContextClass();if(audioCtx.state==='suspended')await audioCtx.resume();const base=261.63,now=audioCtx.currentTime;tune.forEach((n,i)=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=base*Math.pow(2,n/12);g.gain.setValueAtTime(.0001,now+i*.23);g.gain.exponentialRampToValueAtTime(.12,now+i*.23+.02);g.gain.exponentialRampToValueAtTime(.0001,now+i*.23+.2);o.connect(g).connect(audioCtx.destination);o.start(now+i*.23);o.stop(now+i*.23+.22)});$('musicStatus').textContent='Playing original synth notes';say('This is my little melody! Do you like it?');grow()}catch(err){$('musicStatus').textContent='Sound unavailable: '+(err.message||'tap to retry');say('I could not start the sound yet. Please try the Play button once more, and check that your iPad is not muted.')}}
+$('playTune').onclick=playMelody;$('makeTune').onclick=()=>{tune=Array.from({length:8},()=>[0,2,4,7,9,11,12][Math.floor(Math.random()*7)]);$('musicStatus').textContent='New melody created';playMelody()};
+$('speak').onclick=()=>{say('Hello! I am finding my voice, one little conversation at a time.');speakText('Hello! I am finding my voice, one little conversation at a time.');grow()};
+fitCanvas();window.addEventListener('resize',fitCanvas);window.addEventListener('orientationchange',()=>setTimeout(fitCanvas,250));
+</script>
+</body></html>

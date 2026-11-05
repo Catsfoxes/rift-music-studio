@@ -1,0 +1,43 @@
+name: Publish companion demo
+
+on:
+  push:
+    branches:
+      - companion-demo
+    paths:
+      - companion-demo.html
+      - docs/index.html
+      - .github/workflows/publish-companion.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out companion demo
+        uses: actions/checkout@v4
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Prepare demo site
+        run: |
+          mkdir -p _site
+          cp docs/index.html _site/index.html
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy site
+        id: deployment
+        uses: actions/deploy-pages@v4
