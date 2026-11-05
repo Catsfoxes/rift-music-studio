@@ -33,7 +33,7 @@ jobs:
       - name: Prepare demo site
         run: |
           mkdir -p _site
-          cp companion-demo.html _site/index.html
+          cp docs/index.html _site/index.html
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
